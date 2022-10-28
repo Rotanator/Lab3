@@ -30,7 +30,16 @@ namespace Lab3WinForms
 
         private void buttonRemoveWord_Click(object sender, EventArgs e)
         {
+            if (currentWordList == null) { NewWordList(); return; }
+            FormRemoveWord form = new FormRemoveWord(currentWordList.Languages);
+            DialogResult result = form.ShowDialog();
 
+            if (result == DialogResult.OK && form.RemoveFromLanguage > -1)
+            {
+                currentWordList.Remove(form.RemoveFromLanguage, form.WordToRemove);
+                currentWordList.Save();
+                DisplayWordList(currentFileName);
+            } else { return; }
         }
 
 
@@ -131,6 +140,13 @@ namespace Lab3WinForms
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void buttonPractice_Click(object sender, EventArgs e)
+        {
+            if (currentWordList == null) { NewWordList(); return; }
+            FormPracticeWords form = new FormPracticeWords(currentWordList);
+            DialogResult result = form.ShowDialog();
         }
     }
 }
